@@ -20,9 +20,14 @@ public class CommonPagePO {
     @FindBy(how = How.LINK_TEXT, using = "Лента Заказов")
     private SelenideElement orderFeedButton;
 
-    public AccountPagePO clickAccountButton(){
+    public AccountPagePO clickAccountButtonByAuthorizedUser(){
         accountButton.click();
         return page(AccountPagePO.class);
+    }
+
+    public AuthorizationPagePO clickAccountButtonByUnauthorizedUser(){
+        accountButton.click();
+        return page(AuthorizationPagePO.class);
     }
 
     public ConstructorPagePO clickLogoButton(){

@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.junit.ScreenShooter;
 import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
@@ -11,11 +12,12 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
-public class SignInTest {
+public class GoToAccountTest {
 
     private UserCredentials userCredentials;
     private String accessToken = "";
     private ConstructorPagePO mainPage;
+    private AuthorizationPagePO authorizationPage;
     private AuthClient authClient;
 
     @Rule
@@ -39,43 +41,26 @@ public class SignInTest {
     }
 
     @Test
-    public void testSignInFromMainPage() {
-        mainPage
-                .clickSignInButton()
-                .fillAllFiledAndClickSignInButton(userCredentials)
-                .getCreateOrderButton()
-                .shouldBe(Condition.visible);
-    }
-
-    @Test
-    public void testSignInFromAccountPage(){
-        mainPage
+    public void testGoToAccountByUnauthorizedUser(){
+        SelenideElement headerEnter = mainPage
                 .clickAccountButtonByUnauthorizedUser()
-                .fillAllFiledAndClickSignInButton(userCredentials)
-                .getCreateOrderButton()
+                .getHeaderEnter()
                 .shouldBe(Condition.visible);
+        String expected = "Вход";
+        String message = "Не найден заголовок страницы Авторизации";
+        Assert.assertEquals(message, expected, headerEnter.getText());
+
     }
 
     @Test
-    public void testSignInFromRegisterPage(){
-        mainPage
-                .clickSignInButton()
-                .clickRegisterButton()
+    public void testGoToAccountByAuthorizedUser(){
+        SelenideElement accountText = mainPage
                 .clickSignInButton()
                 .fillAllFiledAndClickSignInButton(userCredentials)
-                .getCreateOrderButton()
-                .shouldBe(Condition.visible);
+                .clickAccountButtonByAuthorizedUser()
+                .getAccountText().shouldBe(Condition.visible);
+        String expected = "В этом разделе вы можете изменить свои персональные данные";
+        String message = "Не найден текст Личного кабинета";
+        Assert.assertEquals(message, expected, accountText.getText());
     }
-
-    @Test
-    public void testSignInFromPasswordRecoveryPage(){
-        mainPage
-                .clickSignInButton()
-                .clickPasswordRecoveryButton()
-                .clickSignInButton()
-                .fillAllFiledAndClickSignInButton(userCredentials)
-                .getCreateOrderButton()
-                .shouldBe(Condition.visible);
-    }
-
 }
