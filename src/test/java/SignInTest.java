@@ -4,7 +4,6 @@ import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
 import ru.yandex.burgers.model.User;
 import ru.yandex.burgers.model.UserCredentials;
-import ru.yandex.burgers.ui.po.AuthorizationPagePO;
 import ru.yandex.burgers.ui.po.ConstructorPagePO;
 
 import static com.codeborne.selenide.Selenide.open;
