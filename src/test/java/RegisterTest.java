@@ -45,7 +45,7 @@ public class RegisterTest {
                 .clickSignInButton()
                 .clickRegisterButton()
                 .fillAllFiledAndClickRegisterButton(user)
-                .getEnterHeader().shouldBe(Condition.visible);
+                .getSigningInHeader().shouldBe(Condition.visible);
 
         accessToken = authClient.login(new UserCredentials(user.getEmail(), user.getPassword()))
                 .assertThat().statusCode(SC_OK).extract().path("accessToken");

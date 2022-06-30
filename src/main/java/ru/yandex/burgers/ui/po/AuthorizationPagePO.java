@@ -12,7 +12,7 @@ public class AuthorizationPagePO {
     public static final String URL = "https://stellarburgers.nomoreparties.site/login";
 
     @FindBy(how = How.XPATH, using = ".//h2[text()='Вход']")
-    private SelenideElement enterHeader;
+    private SelenideElement loggingInHeader;
 
     @FindBy(how = How.LINK_TEXT, using = "Зарегистрироваться")
     private SelenideElement registerButton;
@@ -29,8 +29,8 @@ public class AuthorizationPagePO {
     @FindBy(how = How.XPATH, using = ".//button[text()='Войти']")
     private SelenideElement signInButton;
 
-    public SelenideElement getEnterHeader(){
-        return enterHeader;
+    public SelenideElement getSigningInHeader(){
+        return loggingInHeader;
     }
 
     public RegisterPagePO clickRegisterButton(){

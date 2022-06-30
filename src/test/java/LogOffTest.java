@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
-public class GoToAccountTest {
+public class LogOffTest {
 
     private UserCredentials userCredentials;
     private String accessToken = "";
@@ -39,26 +39,16 @@ public class GoToAccountTest {
     }
 
     @Test
-    public void testGoToAccountByUnauthorizedUser(){
+    public void testLoggingOff(){
         SelenideElement signingInHeader = mainPage
-                .clickAccountButtonByUnauthorizedUser()
-                .getSigningInHeader()
-                .shouldBe(Condition.visible);
-        String expected = "Вход";
-        String message = "Не найден заголовок страницы Авторизации";
-        Assert.assertEquals(message, expected, signingInHeader.getText());
-
-    }
-
-    @Test
-    public void testGoToAccountByAuthorizedUser(){
-        SelenideElement accountText = mainPage
                 .clickSignInButton()
                 .fillAllFiledAndClickSignInButton(userCredentials)
                 .clickAccountButtonByAuthorizedUser()
-                .getAccountText().shouldBe(Condition.visible);
-        String expected = "В этом разделе вы можете изменить свои персональные данные";
-        String message = "Не найден текст Личного кабинета";
-        Assert.assertEquals(message, expected, accountText.getText());
+                .clickLoggingOffButton()
+                .getSigningInHeader().shouldBe(Condition.visible);
+        String expected = "Вход";
+        String message = "Не найден заголовок страницы Авторизации";
+        Assert.assertEquals(message, expected, signingInHeader.getText());
     }
+
 }
