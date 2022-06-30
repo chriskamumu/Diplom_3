@@ -1,6 +1,5 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.junit.ScreenShooter;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,7 +45,7 @@ public class RegisterTest {
                 .clickSignInButton()
                 .clickRegisterButton()
                 .fillAllFiledAndClickRegisterButton(user)
-                .getHeaderEnter().shouldBe(Condition.visible);
+                .getEnterHeader().shouldBe(Condition.visible);
 
         accessToken = authClient.login(new UserCredentials(user.getEmail(), user.getPassword()))
                 .assertThat().statusCode(SC_OK).extract().path("accessToken");

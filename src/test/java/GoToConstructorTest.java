@@ -5,19 +5,20 @@ import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
 import ru.yandex.burgers.model.User;
 import ru.yandex.burgers.model.UserCredentials;
-import ru.yandex.burgers.ui.po.AuthorizationPagePO;
 import ru.yandex.burgers.ui.po.ConstructorPagePO;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
-public class GoToAccountTest {
+public class GoToConstructorTest {
 
     private UserCredentials userCredentials;
     private String accessToken = "";
     private ConstructorPagePO mainPage;
     private AuthClient authClient;
+    String expected = "Соберите бургер";
+    String message = "На странице отсутствует заголовок Конструктора";
 
     @Rule
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests().succeededTests();
@@ -40,26 +41,25 @@ public class GoToAccountTest {
     }
 
     @Test
-    public void testGoToAccountByUnauthorizedUser(){
-        SelenideElement headerEnter = mainPage
-                .clickAccountButtonByUnauthorizedUser()
-                .getEnterHeader()
-                .shouldBe(Condition.visible);
-        String expected = "Вход";
-        String message = "Не найден заголовок страницы Авторизации";
-        Assert.assertEquals(message, expected, headerEnter.getText());
-
-    }
-
-    @Test
-    public void testGoToAccountByAuthorizedUser(){
-        SelenideElement accountText = mainPage
+    public void testClickConstructorButtonFromAccount(){
+        SelenideElement constructorHeader = mainPage
                 .clickSignInButton()
                 .fillAllFiledAndClickSignInButton(userCredentials)
                 .clickAccountButtonByAuthorizedUser()
-                .getAccountText().shouldBe(Condition.visible);
-        String expected = "В этом разделе вы можете изменить свои персональные данные";
-        String message = "Не найден текст Личного кабинета";
-        Assert.assertEquals(message, expected, accountText.getText());
+                .clickConstructorButton()
+                .getConstructorHeader().shouldBe(Condition.visible);
+
+        Assert.assertEquals(message, expected, constructorHeader.getText());
+    }
+
+    @Test
+    public void testClickLogoFromAccount(){
+        SelenideElement constructorHeader =  mainPage
+                .clickSignInButton()
+                .fillAllFiledAndClickSignInButton(userCredentials)
+                .clickAccountButtonByAuthorizedUser()
+                .clickLogoButton()
+                .getConstructorHeader().shouldBe(Condition.visible);
+        Assert.assertEquals(message, expected, constructorHeader.getText());
     }
 }

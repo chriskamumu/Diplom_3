@@ -13,6 +13,9 @@ public class ConstructorPagePO extends CommonPagePO{
 
     public static final String URL = "https://stellarburgers.nomoreparties.site/";
 
+    @FindBy(how = How.XPATH, using = ".//h1[text()='Соберите бургер']")
+    private SelenideElement constructorHeader;
+
     @FindBy(how = How.XPATH, using = ".//button[text()='Войти в аккаунт']")
     private SelenideElement signInButton;
 
@@ -30,6 +33,10 @@ public class ConstructorPagePO extends CommonPagePO{
 
     public SelenideElement getCreateOrderButton(){
         return createOrderButton;
+    }
+
+    public SelenideElement getConstructorHeader(){
+        return constructorHeader;
     }
 
 }
