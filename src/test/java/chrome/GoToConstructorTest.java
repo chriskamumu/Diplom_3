@@ -1,5 +1,8 @@
+package chrome;
+
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.junit.ScreenShooter;
 import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
@@ -11,19 +14,21 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.apache.hc.core5.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
-public class LogOffTest {
+public class GoToConstructorTest {
 
     private UserCredentials userCredentials;
     private String accessToken = "";
     private ConstructorPagePO mainPage;
     private AuthClient authClient;
+    String expected = "Соберите бургер";
+    String message = "На странице отсутствует заголовок Конструктора";
 
     @Rule
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests().succeededTests();
 
     @Before
     public void setUp() {
-        User user = new User("new_login_kr@mail.ru", "password", "name");
+        User user = new User("new_login_kr0307@mail.ru", "password", "name");
         userCredentials = new UserCredentials(user.getEmail(), user.getPassword());
         authClient = new AuthClient();
         accessToken = authClient.register(user).statusCode(SC_OK).extract().path("accessToken");
@@ -38,17 +43,31 @@ public class LogOffTest {
         }
     }
 
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
+    }
+
     @Test
-    public void testLoggingOff(){
-        SelenideElement signingInHeader = mainPage
+    public void testClickConstructorButtonFromAccount(){
+        SelenideElement constructorHeader = mainPage
                 .clickSignInButton()
                 .fillAllFiledAndClickSignInButton(userCredentials)
                 .clickAccountButtonByAuthorizedUser()
-                .clickLoggingOffButton()
-                .getSigningInHeader().shouldBe(Condition.visible);
-        String expected = "Вход";
-        String message = "Не найден заголовок страницы Авторизации";
-        Assert.assertEquals(message, expected, signingInHeader.getText());
+                .clickConstructorButton()
+                .getConstructorHeader().shouldBe(Condition.visible);
+
+        Assert.assertEquals(message, expected, constructorHeader.getText());
     }
 
+    @Test
+    public void testClickLogoFromAccount(){
+        SelenideElement constructorHeader =  mainPage
+                .clickSignInButton()
+                .fillAllFiledAndClickSignInButton(userCredentials)
+                .clickAccountButtonByAuthorizedUser()
+                .clickLogoButton()
+                .getConstructorHeader().shouldBe(Condition.visible);
+        Assert.assertEquals(message, expected, constructorHeader.getText());
+    }
 }

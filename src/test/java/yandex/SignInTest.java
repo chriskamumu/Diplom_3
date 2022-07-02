@@ -1,4 +1,7 @@
+package yandex;
+
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.junit.ScreenShooter;
 import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
@@ -20,9 +23,14 @@ public class SignInTest {
     @Rule
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests().succeededTests();
 
+    @BeforeClass
+    public static void setupBrowser() {
+        System.setProperty("webdriver.chrome.driver", "src/resources/yandexdriver.exe");
+    }
+
     @Before
     public void setUp() {
-        User user = new User("new_login_kr@mail.ru", "password", "name");
+        User user = new User("new_login_kr0307@mail.ru", "password", "name");
         userCredentials = new UserCredentials(user.getEmail(), user.getPassword());
         authClient = new AuthClient();
         accessToken = authClient.register(user).statusCode(SC_OK).extract().path("accessToken");
@@ -35,6 +43,11 @@ public class SignInTest {
             authClient.delete(accessToken).assertThat().statusCode(SC_ACCEPTED);
             accessToken = "";
         }
+    }
+
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
     }
 
     @Test

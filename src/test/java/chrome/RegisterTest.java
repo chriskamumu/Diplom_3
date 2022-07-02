@@ -1,9 +1,9 @@
+package chrome;
+
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.junit.ScreenShooter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import ru.yandex.burgers.api.client.AuthClient;
 import ru.yandex.burgers.model.User;
 import ru.yandex.burgers.model.UserCredentials;
@@ -34,13 +34,18 @@ public class RegisterTest {
         }
     }
 
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
+    }
+
 
     @Rule
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests().succeededTests();
 
     @Test
     public void testRegisterSuccessful(){
-        user = new User("random_kr2806@mail.ru", "password", "Кристина");
+        user = new User("random_kr0307@mail.ru", "password", "Кристина");
         mainPage
                 .clickSignInButton()
                 .clickRegisterButton()
@@ -54,7 +59,7 @@ public class RegisterTest {
 
     @Test
     public void testRegisterWithIncorrectPassword(){
-        user = new User("random_kr2806@mail.ru", "pass5", "Кристина");
+        user = new User("random_kr0307@mail.ru", "pass5", "Кристина");
         mainPage
                 .clickSignInButton()
                 .clickRegisterButton()
