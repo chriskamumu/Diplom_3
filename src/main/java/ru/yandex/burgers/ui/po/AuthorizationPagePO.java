@@ -1,6 +1,7 @@
 package ru.yandex.burgers.ui.po;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import ru.yandex.burgers.model.UserCredentials;
@@ -29,30 +30,36 @@ public class AuthorizationPagePO {
     @FindBy(how = How.XPATH, using = ".//button[text()='Войти']")
     private SelenideElement signInButton;
 
+    @Step("Получить заголовок на странице авторизации")
     public SelenideElement getSigningInHeader(){
         return loggingInHeader;
     }
 
+    @Step("Нажать на кнопку регистрации")
     public RegisterPagePO clickRegisterButton(){
         registerButton.click();
         return page(RegisterPagePO.class);
     }
 
+    @Step("Заполнить поле Email")
     public AuthorizationPagePO setEmailField(String email){
         emailField.setValue(email);
         return page(AuthorizationPagePO.class);
     }
 
+    @Step("Заполнить поле Пароль")
     public AuthorizationPagePO setPasswordField(String password){
         passwordField.setValue(password);
         return page(AuthorizationPagePO.class);
     }
 
+    @Step("Нажать на кнопку входа")
     public AuthorizationPagePO clickSignInButton(){
         signInButton.click();
         return page(AuthorizationPagePO.class);
     }
 
+    @Step("Заполнить все поля и нажать на кнопку входа")
     public ConstructorPagePO fillAllFiledAndClickSignInButton(UserCredentials userCredentials){
         setEmailField(userCredentials.getEmail())
                 .setPasswordField(userCredentials.getPassword())
@@ -60,6 +67,7 @@ public class AuthorizationPagePO {
         return page(ConstructorPagePO.class);
     }
 
+    @Step("Нажать на кнопку восстановления пароля")
     public PasswordRecoveryPagePO clickPasswordRecoveryButton(){
         passwordRecoveryButton.click();
         return page(PasswordRecoveryPagePO.class);

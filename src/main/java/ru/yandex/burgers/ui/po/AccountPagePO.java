@@ -1,6 +1,7 @@
 package ru.yandex.burgers.ui.po;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
@@ -19,10 +20,12 @@ public class AccountPagePO extends CommonPagePO{
     @FindBy(how = How.XPATH, using = ".//button[text()='Выход']")
     private SelenideElement loggingOffButton;
 
+    @Step("Получить текста на странице личного кабинета")
     public SelenideElement getAccountText(){
         return accountText;
     }
 
+    @Step("Нажать на кнопку выхода на странице личного кабинета")
     public AuthorizationPagePO clickLoggingOffButton(){
         loggingOffButton.click();
         return page(AuthorizationPagePO.class);
