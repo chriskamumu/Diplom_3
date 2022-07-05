@@ -1,8 +1,10 @@
-package yandex;
+package tests.chrome;
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import ru.yandex.burgers.ui.po.ConstructorPagePO;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -10,12 +12,6 @@ import static com.codeborne.selenide.Selenide.open;
 public class ConstructorTest {
 
     private ConstructorPagePO mainPage;
-
-    @BeforeClass
-    public static void setupBrowser() {
-        System.setProperty("webdriver.chrome.driver", "src/resources/yandexdriver.exe");
-        Configuration.startMaximized = true;
-    }
 
     @Before
     public void setUp(){
@@ -48,6 +44,8 @@ public class ConstructorTest {
     @Test
     public void testClickBunsSection(){
         String result = mainPage
+                .clickFillingsButton()
+                .clickBunsButton()
                 .findSelectedSection().getText();
         String message = "Не выбрана секция Булки";
         Assert.assertEquals(message, "Булки", result);
